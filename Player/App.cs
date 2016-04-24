@@ -53,8 +53,12 @@ namespace Framefield.Player
                                 return;
                         }
 
+                        if (commandLineOptions.Mute) { startUpDlg.Settings.Mute = true; }
+                        if (commandLineOptions.Screensaver) { startUpDlg.Settings.Screensaver = true; startUpDlg.Settings.Looped = true; }
+
                         if (player.Initialize(startUpDlg.Settings))
                         {
+                            
                             TimeLogger.Enabled = commandLineOptions.TimeLoggingEnabled;
                             player.Precalc();
                             player.Run();

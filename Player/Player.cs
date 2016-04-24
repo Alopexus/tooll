@@ -116,15 +116,53 @@ namespace Framefield.Player
             _form.KeyDown += KeyDownHandler;
             _form.Resize += ResizeHandler;
 
+            if (_settings.Screensaver)
+            {
+                _form.MouseMove += ScreensaverMouseMoveHandler;
+                _form.MouseClick += ScreensaverMouseClickHandler;
+                _form.KeyPress += ScreensaverKeyPressHandler;
+            }
+
             SetupRenderBuffers();
 
             if (_settings.FullScreen)
                 Cursor.Hide();
 
+            if (_settings.Mute) { Bass.BASS_ChannelSetAttribute(_soundStream, BASSAttribute.BASS_ATTRIB_VOL, 0.0f); }
+    
+
+
             D3DDevice.TouchWidth = 1920;
             D3DDevice.TouchHeight = 1080;
 
             return true;
+        }
+
+
+        private System.Drawing.Point mouseLocation;
+
+        private void ScreensaverMouseMoveHandler(object sender, MouseEventArgs e)
+        {
+            if (!mouseLocation.IsEmpty)
+            {
+                // Terminate if mouse is moved a significant distance
+                if (Math.Abs(mouseLocation.X - e.X) > 5 ||
+                    Math.Abs(mouseLocation.Y - e.Y) > 5)
+                    _form.Close();
+            }
+
+            // Update current mouse location
+            mouseLocation = e.Location;
+        }
+
+        private void ScreensaverMouseClickHandler(object sender, MouseEventArgs e)
+        {
+            _form.Close();
+        }
+
+        private void ScreensaverKeyPressHandler(object sender, KeyPressEventArgs e)
+        {
+            _form.Close();
         }
 
         private void ResizeHandler(Object sender, EventArgs e) {

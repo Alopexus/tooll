@@ -21,11 +21,16 @@ namespace Framefield.Player
                 {
                     case "hide_dialog": HideDialog = true; break;
                     case "time_logging": TimeLoggingEnabled = true; break;
+                    case "screensaver": Screensaver = true; break;
+                    case "mute": Mute = true; break;
+
                 }
             }
         }
 
         public bool HideDialog { get; private set; }
         public bool TimeLoggingEnabled { get; private set; }
+        public bool Screensaver { get; private set; }
+        public bool Mute { get; private set; }
     }
 }
